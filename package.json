@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "markdown-to-html-cli": "^4.1.0"
+  }
+}
