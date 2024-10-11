@@ -8,13 +8,13 @@ Solid, clean code, twelve-factor app, etc... there are dozens if not hundreds of
 
 If I have to reason in a code review about using `!!` or `(bool)` to cast a variable it's political nonsense to me - at least if there is no autistic person in the involved teams. 
 
-I think there are some things that can be derived from common problems a programmer is faced and tooling he is equipped with. Things that can be derived can be argued about. Thus, bringing programming out of the religious zone. 
+I think there are some things that can be derived from common problems a developer is faced and tooling he is equipped with. Things that can be derived can be argued about. Thus, bringing programming out of the religious zone. 
 
 This programming guide is fork-able at [GitHub](https://github.com/koudela/perfect-programming/). Please file an issue there if you disagree on some of my statements to a substantial extend or if a reason is not understandable enough.
 
 ## Basics I - programming is about data
 
-In programming there is only data. Variables, loops, ifs, functions, methods, classes, streams, databases, apis and all the other things a programmer has to master are there to handle data.
+In programming there is only data. Variables, loops, ifs, functions, methods, classes, streams, databases, apis and all the other things a developer has to master are there to handle data.
 
 This handling of data can be categorized in three big domains:
 1. data representation (models and views of data)
@@ -31,14 +31,14 @@ Beginners may think programming is about writing code. But that is **not true**:
 
 1. Codebases are huge. Today's apps consists of hundred thousand of lines or even more.
     - No human being can process hundred thousand of lines in his brain at once. Thus code has to be written incrementally.
-    - Large Codebases are written by many programmers or even many teams of programmers. Thus code written by others has to be taken in account.
+    - Large Codebases are written by many developers or even many teams of developers. Thus code written by others has to be taken in account.
 2. In a competing world reinventing the wheel is not a good idea. Libraries and Packages are mandatory but get outdated regularly and force code adjustments. 
 3. Programming languages evolve and thus get outdated too. The codebase can not ignore the forced changes.
 4. Bugs in the codebase stand out mor than bugs in the documentation. Thus, the codebase is the only source of truth.
 5. For most businesses the functionality of the app has a greater priority than the accuracy of the documentation. Again the codebase is the only source of truth.
-6. Programmers forget about the tons of code they have read and written regularly, and they change their employer on a regular basis too. You get the point: The codebase is the only source of truth.
+6. Developers forget about the tons of code they have read and written regularly, and they change their employer on a regular basis too. You get the point: The codebase is the only source of truth.
 
-Programmers never just write code. They add to the codebase, and they make changes to the codebase. Programming is about the codebase. Programming is about maintaining code.
+Developers never just write code. They add to the codebase, and they make changes to the codebase. Programming is about the codebase. Programming is about maintaining code.
 
 ## Basics III - code quality is measured by time
 
@@ -48,7 +48,7 @@ How to measure maintainability?
 
 Let's answer that for businesses: All is measured in money. 
 
-The money spent is (in most cases) proportional to the time one or more programmers have to invest to make additions or changes to the codebase (bug fixing included). 
+The money spent is (in most cases) proportional to the time one or more developers have to invest to make additions or changes to the codebase (bug fixing included). 
 
 The better the code the less time is needed to add or make changes to the codebase. Thus code quality is measured by time.
 
@@ -82,13 +82,13 @@ There are two additional breadcrumb types which are only relevant for hunting bu
 ## Code quality II - understanding code: programming is about structure
 
 There are three factors contributing to the speed of understanding code:
-1. How many lines has a programmer to read to fully understand a piece of code.
-2. Has a programmer to run the code to understand it. (Setting breakpoints, stepping through it, inspecting variables, etc.)
+1. How many lines has a developer to read to fully understand a piece of code.
+2. Has a developer to run the code to understand it. (Setting breakpoints, stepping through it, inspecting variables, etc.)
 3. How many thoughts hat to be given to the lines (and time for consulting other resources) to fully understand what is going on.
 
 ### How can we cut the lines down?
 
-The most effective thing is containerizing the code and naming the containers after what they are doing. Using object methods or functions to accomplish this is a matter of taste. Knowing what a function/method does (by its name) immediately tells the programmer if he has to enter the function/method to get to the bottom of the current problem/question or not. 
+The most effective thing is containerizing the code and naming the containers after what they are doing. Using object methods or functions to accomplish this is a matter of taste. Knowing what a function/method does (by its name) immediately tells the developer if he has to enter the function/method to get to the bottom of the current problem/question or not. 
 
 The corresponding programming principle is called separation of concerns (SoC). Although it acts on a wider scale too - as code containers can be containerized again. For example methods are grouped together in a class. Or classes grouped in a module. The grouping in a class/module separates it from other classes/modules. Containerizing code and SoC reduces coupling and increases cohesion. 
 
@@ -98,7 +98,7 @@ SoC and LoB can be seen as the same principle acting on reversed signs. LoB is g
 
 ### How can we prevent the need to run a piece of code?
 
-Running code gives two insights to the programmer:
+Running code gives two insights to the developer:
 1. An example of the program flow followed.
 2. An example of the data used.
 
@@ -108,7 +108,7 @@ Always think about programming patterns twice. For example: The observer pattern
 
 The data used can be explained by using data-objects. They have to be properly sized (not containing too much data that is irrelevant), named and type-hinted. Same goes for the properties of them.
 
-Beside saving time there is a second argument against running code to understand it: The result is always an example but can make the programmer think he gets the whole picture if it connects well with the code. 
+Beside saving time there is a second argument against running code to understand it: The result is always an example but can make the developer think he gets the whole picture if it connects well with the code. 
 
 Perfect code never has to be run (in the context of understanding it).
 
@@ -136,27 +136,44 @@ Let's go back to the backend developer who is on the task of altering the delive
 
 Keeping things together that belong together (LoB) is the antidote. This saves you a lot of time and bugs.
 
-There is a second thing that can kill the confidence in your code changes. Data that escapes the local scope. This can be a static property of an object, a service (visitor pattern) with a property, a closure with a local variable or a persisted value. State outside the local scope can alter the program state/flow in an unexpected way (at least unexpected for the feature/fix the programmer is on). This impact is called side effect. 
+There is a second thing that can kill the confidence in your code changes. Data that escapes the local scope. This can be a static property of an object, a service (visitor pattern) with a property, a closure with a local variable or a persisted value. State outside the local scope can alter the program state/flow in an unexpected way (at least unexpected for the feature/fix the developer is on). This impact is called side effect. 
 
-Side effects are the brother of logic duplication. The programmer has to follow (and understand) all the logic the escaped data plays a role in. This can easily burst the time and the brain power available.
+Side effects are the brother of logic duplication. The developer has to follow (and understand) all the logic the escaped data plays a role in. This can easily burst the time and the brain power available.
 
-Of course data leaves the local scope when it is persisted to the database. But the impact of saved data will never come unexpected to a seasoned programmer. Thus, it is not called side effect. 
+Of course data leaves the local scope when it is persisted to the database. But the impact of saved data will never come unexpected to a seasoned developer. Thus, it is not called side effect. 
 
 Whenever there is the need of state/data outside the current scope use the database or a sensible named model as proxy, such that the altering of the programm state/flow is never unexpected.
 
 Good code keeps unexpected things local. Good code does not have side effects.
 
+## Code quality IV - boundaries of the feature domain and exception handling
 
-*(c) 2024 Thomas Koudela - last modified 09.10.2024*
+One of the most underestimated and misunderstood tools in programming are exceptions. Exceptions are closely related to the scope of the feature domain. They are the crash barrier if the infrastructure, the data or the flow get out of the line and are not as expected. It is more a rescue kit than a point of failure.
+
+A feature domain always has a scope in witch it is well-defined. Outside it is not. For example an import of data can not be done if the data-source is not available. Although the handling of such an unprocessable state can be within the feature domain. For example if the import is triggered by a user action there can be a message displayed that the data-source is missing. Or if it is triggered by a cron job an email can be sent to notify a responsible person.
+
+It is the responsibility of the developer to be aware of the scope of the feature domain, identify the boundaries and handle unprocessable state. Customers, project-owner and other stakeholder are not that aware of thees boundaries but may have to be consulted to decide about the handling.
+
+Exceptions contribute to the breadcrumbs and understandability part of the code and are therefore part of the (measurable) code quality.
+
+As a rule of thumb catching an exception and throw another exception is pure coding as it disguises the origin of the unprocessable state. Using a specific exception class or an uuid in the exception message can contribute to the code quality as it can speed things up when an exception should be fixed (e.g. the real feature domain differs from the implemented feature domain) but a trace is not available.
+
+As sooner the unprocessable state is detected the better. For example if a null value is persisted to a database column where no null value is allowed an exception is thrown. But it has been decided before that there will be a null value. The leaving of the feature domain may come long before throwing the exception. This can cost a considerable amount of time if the leaving of the feature domain has to be debugged. Data (source) validation may increase the code quality in this example as validation handels the boundaries of the feature domain too and can be done anywhere in the code. 
+
+*(c) 2024 Thomas Koudela - last modified 11.10.2024*
 
 
 ## ...coming up soon:
 
-### Code quality IV - bug hunting
-### Code quality V - automated testing
-### Code quality VI - technical dept (and refactorings)
+### Code quality V - logging
+### Code quality VI - dokumentation of code
+### Code quality VII - automated testing
+### Code quality VIII - good and bad abstractions
+### Code quality IX - dependency management
+### Code quality X - technical dept (and refactorings)
+### Basics IV - feature quality vs. code quality
 ### Basics V - programming is about asking questions
-### Basics IV - programming is about balancing tradeoffs
-### Basics VI - programing is about real world domains
-### Basics VII - good and bad abstractions
-### Basics VIII - principles of good programming
+### Basics VI - programming is about balancing tradeoffs
+### Basics VII - programing is about real world domains
+### Basics VIII - workflow and how to handle big features
+### Basics IX - principles of good programming
