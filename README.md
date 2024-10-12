@@ -160,12 +160,26 @@ As a rule of thumb catching an exception and throw another exception is pure cod
 
 As sooner the unprocessable state is detected the better. For example if a null value is persisted to a database column where no null value is allowed an exception is thrown. But it has been decided before that there will be a null value. The leaving of the feature domain may come long before throwing the exception. This can cost a considerable amount of time if the leaving of the feature domain has to be debugged. Data (source) validation may increase the code quality in this example as validation handels the boundaries of the feature domain too and can be done anywhere in the code. 
 
-*(c) 2024 Thomas Koudela - last modified 11.10.2024*
+### Code quality V - logging
+
+Logs can be seen as external infrastructure. But logging contributes to the code quality as it supports understanding failures. If the bug is not reproducible often debugging cannot be done without. The evaluation of log entries can contribute to the feature quality in the midterm.
+
+Logging can be categorized in five big areas:
+1. Event logging - e.g. exception logging
+2. Bookkeeping -  e.g. cron event logging
+3. Story logging - e.g. cron output logging
+4. Archiving - e.g. moving used data files to an archive folder
+5. State logging - e.g. data source/sink logging
+
+There are structured logs and unstructured logs. A structured log is typically written to a separate data sink that supports it structure. For example a database table or csv. An unstructured log is most of the time a logfile which lines consists of log entries from different sources witch can be grepped by their context and log message to filter specific logging events.
+
+In terms of code quality more logging is better. If you do not log you do something wrong. At least the logging of unhandled exceptions and crucial data from/to external apis should always be done. Structured logs are better than unstructured logs. More context is better the than less context. But logging has to be balanced against disk-space and code-execution-time. Therefore, it is often done based on the environment and with some sort of log rotation.
+
+*(c) 2024 Thomas Koudela - last modified 12.10.2024*
 
 
 ## ...coming up soon:
 
-### Code quality V - logging
 ### Code quality VI - dokumentation of code
 ### Code quality VII - automated testing
 ### Code quality VIII - good and bad abstractions
