@@ -160,7 +160,7 @@ As a rule of thumb catching an exception and throw another exception is pure cod
 
 As sooner the unprocessable state is detected the better. For example if a null value is persisted to a database column where no null value is allowed an exception is thrown. But it has been decided before that there will be a null value. The leaving of the feature domain may come long before throwing the exception. This can cost a considerable amount of time if the leaving of the feature domain has to be debugged. Data (source) validation may increase the code quality in this example as validation handels the boundaries of the feature domain too and can be done anywhere in the code. 
 
-### Code quality V - logging
+## Code quality V - logging
 
 Logs can be seen as external infrastructure. But logging contributes to the code quality as it supports understanding failures. If the bug is not reproducible often debugging cannot be done without. The evaluation of log entries can contribute to the feature quality in the midterm.
 
@@ -175,12 +175,52 @@ There are structured logs and unstructured logs. A structured log is typically w
 
 In terms of code quality more logging is better. If you do not log you do something wrong. At least the logging of unhandled exceptions and crucial data from/to external apis should always be done. Structured logs are better than unstructured logs. More context is better the than less context. But logging has to be balanced against disk-space and code-execution-time. Therefore, it is often done based on the environment and with some sort of log rotation.
 
-*(c) 2024 Thomas Koudela - last modified 12.10.2024*
+## Code quality VI - documentation
 
+There are five types of documentation:
+1. Feature documentation (about using the feature)
+2. Integration documentation (about setting the feature up)
+3. Interface documentation (about extending the feature without touching the code)
+4. Implementation documentation (about how the feature works/is implemented)
+5. In code documentation (documentation written between the lines of code)
+
+Not all types may be applicable to a feature but all types can speed up adding or making changes to the codebase and are thus part of the code quality. Mixing these types of documentation is never a good idea as every type targets another type of work.
+
+### Enforcing the use of the documentation
+
+Although it may be of help in their work developers may ignore even a perfect documentation. They have to balance the time invested in the searching the documentation against the time saved by the information extracted.
+
+Big codebases result in a lot of things that may be documented. Finding all relevant documentation can be challenging in the first place. There are several strategies to enhance the search:
+1. A well structure and maintained table of contents
+2. A fulltext search
+3. Linking relevant sections of the document from prevalent feature entry-points in the code.
+
+Nowadays, the searching ability may be further improved by a KI powered search.
+
+An augmenting strategy is linking relevant sections in the ticket by its creator, project owner or ticket refiner. 
+
+### Keeping documentation up to date
+
+Outdated documentation can contribute negatively to code quality. Thus, developer tend to ignore poorly maintained documentation as resource and with respect of updating it. It can be very challenging for a developer team to get out of this deadlock.
+
+There is only one promising strategy for keeping documentation up to date: **All** documentation has to be covered by tests **and** the relevant sections have to be linked by the test. 
+
+Thus, outdated documentation results in failure of tests. The developer in charge knows he is not finished yet and can spot the relevant documentation parts immediately.
+
+### What has to be documented and to what extent? 
+
+1. **Feature documentation**: The responsibility to answer that question for the feature documentation does not lie in the developer domain. It is hold by the project owner or other stakeholder. Thus, it can not be answered here.
+2. **Integration documentation**: The integration documentation should cover all relevant use cases as it is time-consuming extracting the relevant bits from the code. The elaborateness has to depend on the targeted group of persons e.g. in house developer, out house developer, administration, project owner, user with no qualification/training, etc. 
+3. **Interface documentation**: If the targeted groups of persons are third party developers all relevant use cases have to be covered - provided the stakeholder does not decide differently. In house developer may take the relevant bits from the code. Thus, the time consumption of maintaining and consulting the documentation has to be balanced against the time consumption consulting the code. This balancing covers what has to be documented and how elaborate it has to be.
+4. **Implementation documentation**: Code should be self documenting. But there are boundaries to this concept as very many lines of code may be read and understood to get the whole picture of a big feature. Thus, the implementation documentation should focus on the big picture. This can be key concepts used by a feature, background info and linked documentation of used infrastructure, feature details not suitable for the feature documentation, the generalized data flow, architecture insights and many more. There is no generalized answer. The time consumption of creating, maintaining and consulting the documentation has to be balanced against its usefulness.
+5. **In code documentation**. In code documentation should never be used at all for two main reasons: First of all code should be structured and named such that he is self documenting supporting code quality I-III. That does mean: If code has to be clarified its quality is bad in the first place. Second in code documentation can not be linked from automated tests. Thus, there is no way to enforce the validity of in code documentation.
+
+
+*(c) 2024 Thomas Koudela - last modified 13.10.2024*
 
 ## ...coming up soon:
 
-### Code quality VI - dokumentation of code
+
 ### Code quality VII - automated testing
 ### Code quality VIII - good and bad abstractions
 ### Code quality IX - dependency management
