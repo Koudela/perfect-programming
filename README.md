@@ -90,7 +90,7 @@ There are three factors contributing to the speed of understanding code:
 
 The most effective thing is containerizing the code and naming the containers after what they are doing. Using object methods or functions to accomplish this is a matter of taste. Knowing what a function/method does (by its name) immediately tells the developer if he has to enter the function/method to get to the bottom of the current problem/question or not. 
 
-The corresponding programming principle is called separation of concerns (SoC). Although it acts on a wider scale too - as code containers can be containerized again. For example methods are grouped together in a class. Or classes grouped in a module. The grouping in a class/module separates it from other classes/modules. Containerizing code and SoC reduces coupling and increases cohesion. 
+The corresponding programming principle is called separation of concerns (SoC). Although it acts on a wider scale too - as code-containers can be containerized again. For example methods are grouped together in a class. Or classes grouped in a module. The grouping in a class/module separates it from other classes/modules. Containerizing code and SoC reduces coupling and increases cohesion. 
 
 The other programming principle that is applicable to containerizing code is the locality of behaviour (LoB). It also acts on a wider scale as containerized behaviour can be clustered further by behaviour aspects. Lob also reduces coupling an increases cohesion. 
 
@@ -116,7 +116,7 @@ Perfect code never has to be run (in the context of understanding it).
 
 The fewer lines of relevance and the more explicit the flow and the data, the lesser thoughts are needed. 
 
-A fundamental concept to the code complexity and the needed thoughts is the branching graph complexity. If you treat every code container as node and every function/method call as edge then code branching spans a graph.
+A fundamental concept to the code complexity and the needed thoughts is the branching graph complexity. If you treat every code-container as node and every function/method call as edge then code branching spans a graph.
 
 When it comes to cycles understanding code becomes complicated most of the time. Thus keeping cycles small or such big that one can call them live cycles is mandatory. 
 
@@ -145,6 +145,8 @@ Of course data leaves the local scope when it is persisted to the database. But 
 Whenever there is the need of state/data outside the current scope use the database or a sensible named model as proxy, such that the altering of the programm state/flow is never unexpected.
 
 Good code keeps unexpected things local. Good code does not have side effects.
+
+Locality of behaviour combined with the absence of side effects is often referred to as encapsulation.
 
 ## Code quality IV - boundaries of the feature domain and exception handling
 
@@ -215,14 +217,66 @@ Thus, outdated documentation results in failure of tests. The developer in charg
 4. **Implementation documentation**: Code should be self documenting. But there are boundaries to this concept as very many lines of code may be read and understood to get the whole picture of a big feature. Thus, the implementation documentation should focus on the big picture. This can be key concepts used by a feature, background info and linked documentation of used infrastructure, feature details not suitable for the feature documentation, the generalized data flow, architecture insights and many more. There is no generalized answer. The time consumption of creating, maintaining and consulting the documentation has to be balanced against its usefulness.
 5. **In code documentation**. In code documentation should never be used at all for two main reasons: First of all code should be structured and named such that he is self documenting supporting code quality I-III. That does mean: If code has to be clarified its quality is bad in the first place. Second in code documentation can not be linked from automated tests. Thus, there is no way to enforce the validity of in code documentation.
 
+## Code quality VII - automated testing
 
-*(c) 2024 Thomas Koudela - last modified 13.10.2024*
+We have observed already that writing tests for every thing that is documented is a good idea. The reason was helping the developer maintaining the documentation. Are there other reasons for writing tests?
+
+One can argue that a documentation is not complete if not all functionality and user experience of an app are documented. Thus, writing tests for it, you get an 100% tested app. This is right and wrong at the same time since the majority of tests is not complete. 
+
+### Test are never complete
+
+To illustrate this think of a function that takes one float between 0 and 1 and calculates another float value from it. How can you test that function? If you test specific values you test 0% of an infinity of possibilities. If you use knowledge about the internals you most likely duplicate logic, which means you test the function by itself. If it's impossible to write a complete test for a simple function than it is impossible for more complex code for sure.
+
+If tests are not complete it is possible to write code that satisfies the tests but not the acceptance criteria for the feature. Thus, it is possible to introduce bugs. If you want software 100% free of bugs you'll have to do the hell of a lot more than writing tests.
+
+### Tests and code quality
+
+Test contribute to code quality as they can increase confidence that the code changes does not mess other features up. 
+
+### Unit tests and code quality
+
+What should be covered by unit tests to increase confidence in code changes?
+
+Some say all public methods except getters and setters have to be unit tested but there are programming languages which have no access modifiers. Moreover, in some languages one can use traits or mixins to make public methods protected or private. And what about functional programming? Thus, access is not a valid argument if one should write a test or not.
+
+We remember we use code-containers to split up the code for better maintainability. We can write every feature with much fewer containers. And if we do, every unit test would test a complete part of a feature. Thus, if you do unit tests on high quality code, you are testing implementation details. You test if the code is written the way it is. You verify that the code hasn't changed. Thus, unit tests only increase confidence if you change your code without actually changing it.
+
+Testing if the code has changed when you haven't changed the codebase sounds like nonsense, but it isn't. For example, it might be useful if you bump your programming language version. For most projects it is an overkill and waste of precious developer time though.
+
+A second derivation of this fact is: Any time you change the code you have to adjust the affected unit tests. Thus, they can not increase the confidence in the code changes. They are a placebo at best and do not contribute to code quality.
+
+There are some exceptions to that rule:
+1. If you decorate a service you have to make sure that you'll be aware if the logic or the contract of the decorated service changes. Thus, you have to write a unit test for the decorated service.
+2. If you use an external library, and you can not guarantee to recognize all relevant changes on an update, you have to write a unit test for the function/method you use from that external library.
+3. In the case of strict TDD (test driven development) you have to write a test bevor filling a code-container with logic.
+
+As a rule of thumb: If your code is susceptible for changes made outside your codebase you have to cover that by a unit test.
+
+One may argue that these are factors not additions or changes to the codebase. Thus, they have no relation to code quality. But the environment that integrates with an app can not be completely abstracted from the app nor from the codebase and thus there is a relation. We all save our apps dependency files in the code repository for a reason. Although this argument uses "integrates" hinting that these unit tests are integration tests in disguise.
+
+### Integration tests and code quality
+
+As hinted above the integration of an app has only a loose relation to codebase and thus to code quality. 
+
+If your code is susceptible for changes made outside your codebase there is a strong argument to cover that by an integration test.
+
+In terms of code quality the time used to support that integration testing has to be balanced against the time saved by the additional confidence.
+
+### Summary - automated testing and code quality
+
+Beside the tests written for the documentation there is a strong argument to write tests if the code is susceptible for changes made outside the codebase.
+
+In terms of code quality the time used to support the tests has to be balanced against the time saved by the additional confidence.
+
+Unit tests as such are almost useless in terms of code quality.
+
+Outside the scope of code quality there may be another view on tests and their usefulness.
+
+*(c) 2024 Thomas Koudela - last modified 15.10.2024*
 
 ## ...coming up soon:
 
 
-### Code quality VII - automated testing
-### Code quality VIII - good and bad abstractions
 ### Code quality IX - dependency management
 ### Code quality X - technical dept (and refactorings)
 ### Basics IV - feature quality vs. code quality
