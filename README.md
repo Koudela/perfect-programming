@@ -272,7 +272,43 @@ Unit tests as such are almost useless in terms of code quality.
 
 Outside the scope of code quality there may be another view on tests and their usefulness.
 
-*(c) 2024 Thomas Koudela - last modified 15.10.2024*
+## Code quality VIII - good and bad abstractions
+
+All code is abstract, thus we have to define what is an abstraction in the programming domain:
+
+*An abstraction is a programming layer, routine or program part that is used multiple times in other areas of the codebase. In difference to encapsulated code its implementation details are hidden and not easily accessed and most of the time not easy to understand. It exposes new behaviour or alters the behaviour of code. It can be seen as metaprogramming as it introduces new coding functionality.*
+
+For example routing definitions and DBAL are abstractions used extensively in the web developing world.
+
+Abstractions are tightly coupled to configuration although this configuration might include some form of callbacks or interfaces.
+
+Since code quality is measured by time good abstractions save you time but bad abstractions have a negative time saldo.
+
+Abstractions save code, but are hard to understand and often do not support static code analysis at least in parts. Thus, you have to balance the tradeoffs. Writing code is the least part of programming, thus you have a lot to do, to make abstractions profitable:
+
+1. They have to be documented: What abstractions the codebase uses and how they have to be applied.
+2. They have to be covered by automated tests.
+3. They have to be real blackboxes, that means you do not need to know the internals if the documentation is available to you. 
+4. They have to support using breadcrumbs in programming and force it when possible. For example a routing definition as attribute or annotation to a controller method is far better than a routing definition in a database.
+5. They should use convention over configuration when possible and thus support the principle of the least surprise.
+
+When to introduce a new abstraction?
+
+Abstractions add to the things a developer has to know when working with a specific codebase. Thus, there is always a downside in introducing new abstractions to the codebase.
+
+Whenever there is code/logic-duplication that is not easily extractable into a code-container or the codes behaviour is heavily driven by some attribute like data there is an abstraction lurking behind the corner. 
+
+The first consideration is: Can you replace the abstraction by encapsulation or inheritance? If yes, do it.
+
+The second consideration is: Can replace it by some well known architectural pattern? If yes, do it.
+
+The third consideration is how well-defined is the abstraction: Can you easily cover **all** use-cases or has the abstraction to be extended in the future?
+
+If it is not well-defined code/logic-duplication across features (not in a feature!) is far better than an abstraction future developers build workarounds to. That almost always gets ugly.
+
+If after careful investigation in the domain of the abstraction it is well-defined, not replaceable by architectural patterns, inheritance or encapsulation and the five points above can be respected, it might have the potential to become one of the good abstractions. 
+
+*(c) 2024 Thomas Koudela - last modified 17.10.2024*
 
 ## ...coming up soon:
 
