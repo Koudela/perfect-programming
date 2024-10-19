@@ -1,5 +1,7 @@
 # Perfect Programming - a pragmatic approach
 
+*This programming guide is heavily inspired by doing web application development. It may not fit to developing game applications or other.*
+
 ## Preface
 
 Perfect programming - and perfect code as a result - is a highly subjective topic. 
@@ -8,9 +10,36 @@ Solid, clean code, twelve-factor app, etc... there are dozens if not hundreds of
 
 If I have to reason in a code review about using `!!` or `(bool)` to cast a variable it's political nonsense to me - at least if there is no autistic person in the involved teams. 
 
-I think there are some things that can be derived from common problems a developer is faced and tooling he is equipped with. Things that can be derived can be argued about. Thus, bringing programming out of the religious zone. 
+I think there are some things that can be derived from common problems a developer is faced and tooling he is equipped with. Things that can be derived can be argued about. Thus, bringing the talk about programming and what flavour suits best out of the religious zone. 
 
-This programming guide is fork-able at [GitHub](https://github.com/koudela/perfect-programming/). Please file an issue there if you disagree on some of my statements to a substantial extend or if a reason is not understandable enough.
+is fork-able at [GitHub](https://github.com/koudela/perfect-programming/). Please file an issue there if you disagree on some of my statements to a substantial extend or if my reasoning is not understandable enough.
+
+## Table of contents
+
+- **[Preface](#preface)**
+- **[Table of contents](#table-of-contents)**
+- ### Basics
+  - **[Basics I - programming is about data](#basics-i---programming-is-about-data)**
+  - **[Basics II - programming is about maintaining code](#basics-ii---programming-is-about-maintaining-code)**
+  - **[Basics III - code quality is measured by time](#basics-iii---code-quality-is-measured-by-time)**
+- ### Code quality 
+  - **[Code quality I - finding the right spot: programming is about breadcrumbs](#code-quality-i---finding-the-right-spot-programming-is-about-breadcrumbs)**
+  - **[Code quality II - understanding code: programming is about structure](#code-quality-ii---understanding-code-programming-is-about-structure)**
+  - **[Code quality III - not messing things up: programming is about locality](#code-quality-iii---not-messing-things-up-programming-is-about-locality)**
+  - **[Code quality IV - boundaries of the feature domain and exception handling](#code-quality-iv---boundaries-of-the-feature-domain-and-exception-handling)**
+  - **[Code quality V - logging](#code-quality-v---logging)**
+  - **[Code quality VI - documentation](#code-quality-vi---documentation)**
+  - **[Code quality VII - automated testing](#code-quality-vii---automated-testing)**
+  - **[Code quality VIII - good and bad abstractions](#code-quality-viii---good-and-bad-abstractions)**
+- ### ...coming up soon:
+  - **[Code quality IX - dependency management](#code-quality-ix---dependency-management)**
+  - **[Code quality X - technical dept (and refactorings)](#code-quality-x---technical-dept-and-refactorings)**
+  - **[Aspects of programming I - feature quality vs. code quality](#aspects-of-programming-i---feature-quality-vs-code-quality)**
+  - **[Aspects of programming II - programming is about asking questions](#aspects-of-programming-ii---programming-is-about-asking-questions)**
+  - **[Aspects of programming III - programming is about balancing tradeoffs](#aspects-of-programming-iii---programming-is-about-balancing-tradeoffs)**
+  - **[Aspects of programming IV - programing is about real world domains](#aspects-of-programming-iv---programing-is-about-real-world-domains)**
+  - **[Aspects of programming V - workflow and how to handle big features](#aspects-of-programming-v---workflow-and-how-to-handle-big-features)**
+  - **[Summary - principles of good programming](#summary---principles-of-good-programming)**
 
 ## Basics I - programming is about data
 
@@ -19,7 +48,7 @@ In programming there is only data. Variables, loops, ifs, functions, methods, cl
 This handling of data can be categorized in three big domains:
 1. data representation (models and views of data)
 2. data transformation (the business logic of the data)
-3. data persistence (retrieval an saving of data)
+3. data persistence (retrieval and saving of data)
 
 Frontend developers focus on the data representation. 
 Backend developers focus on the data transformation and persistence.
@@ -31,10 +60,10 @@ Beginners may think programming is about writing code. But that is **not true**:
 
 1. Codebases are huge. Today's apps consists of hundred thousand of lines or even more.
     - No human being can process hundred thousand of lines in his brain at once. Thus code has to be written incrementally.
-    - Large Codebases are written by many developers or even many teams of developers. Thus code written by others has to be taken in account.
+    - Large codebases are written by many developers or even many teams of developers. Thus code written by others has to be taken in account.
 2. In a competing world reinventing the wheel is not a good idea. Libraries and Packages are mandatory but get outdated regularly and force code adjustments. 
 3. Programming languages evolve and thus get outdated too. The codebase can not ignore the forced changes.
-4. Bugs in the codebase stand out mor than bugs in the documentation. Thus, the codebase is the only source of truth.
+4. Bugs in the codebase stand out more than bugs in the documentation. Thus, the codebase is the only source of truth.
 5. For most businesses the functionality of the app has a greater priority than the accuracy of the documentation. Again the codebase is the only source of truth.
 6. Developers forget about the tons of code they have read and written regularly, and they change their employer on a regular basis too. You get the point: The codebase is the only source of truth.
 
@@ -52,7 +81,7 @@ The money spent is (in most cases) proportional to the time one or more develope
 
 The better the code the less time is needed to add or make changes to the codebase. Thus code quality is measured by time.
 
-Very little time is used to actually write code (maybe 1 percent or less).
+If you contribute to an existing large codebase, very little time is used to actually write code (maybe 1 percent or less).
 
 The most time is split between three things:
 1. Finding the right (or at least a good) spot to add or make changes to the code.
@@ -92,7 +121,7 @@ The most effective thing is containerizing the code and naming the containers af
 
 The corresponding programming principle is called separation of concerns (SoC). Although it acts on a wider scale too - as code-containers can be containerized again. For example methods are grouped together in a class. Or classes grouped in a module. The grouping in a class/module separates it from other classes/modules. Containerizing code and SoC reduces coupling and increases cohesion. 
 
-The other programming principle that is applicable to containerizing code is the locality of behaviour (LoB). It also acts on a wider scale as containerized behaviour can be clustered further by behaviour aspects. Lob also reduces coupling an increases cohesion. 
+The other programming principle that is applicable to containerizing code is the locality of behaviour (LoB). It also acts on a wider scale as containerized behaviour can be clustered further by behaviour aspects. LoB also reduces coupling an increases cohesion. 
 
 SoC and LoB can be seen as the same principle acting on reversed signs. LoB is gravity between code and SoC is repulsion of code.
 
@@ -158,7 +187,7 @@ It is the responsibility of the developer to be aware of the scope of the featur
 
 Exceptions contribute to the breadcrumbs and understandability part of the code and are therefore part of the (measurable) code quality.
 
-As a rule of thumb catching an exception and throw another exception is pure coding as it disguises the origin of the unprocessable state. Using a specific exception class or an uuid in the exception message can contribute to the code quality as it can speed things up when an exception should be fixed (e.g. the real feature domain differs from the implemented feature domain) but a trace is not available.
+As a rule of thumb catching an exception and throw another exception is bad coding as it disguises the origin of the unprocessable state. Using a specific exception class or an uuid in the exception message can contribute to the code quality as it can speed things up when an exception should be fixed (e.g. the real feature domain differs from the implemented feature domain) but a trace is not available.
 
 As sooner the unprocessable state is detected the better. For example if a null value is persisted to a database column where no null value is allowed an exception is thrown. But it has been decided before that there will be a null value. The leaving of the feature domain may come long before throwing the exception. This can cost a considerable amount of time if the leaving of the feature domain has to be debugged. Data (source) validation may increase the code quality in this example as validation handels the boundaries of the feature domain too and can be done anywhere in the code. 
 
@@ -212,7 +241,7 @@ Thus, outdated documentation results in failure of tests. The developer in charg
 ### What has to be documented and to what extent? 
 
 1. **Feature documentation**: The responsibility to answer that question for the feature documentation does not lie in the developer domain. It is hold by the project owner or other stakeholder. Thus, it can not be answered here.
-2. **Integration documentation**: The integration documentation should cover all relevant use cases as it is time-consuming extracting the relevant bits from the code. The elaborateness has to depend on the targeted group of persons e.g. in house developer, out house developer, administration, project owner, user with no qualification/training, etc. 
+2. **Integration documentation**: The integration documentation should cover all relevant use cases as it is time-consuming extracting the relevant bits from the code. The elaborateness has to depend on the targeted group of persons e.g. in house developer, out house developer, administration, project owner, users with no qualification/training, etc. 
 3. **Interface documentation**: If the targeted groups of persons are third party developers all relevant use cases have to be covered - provided the stakeholder does not decide differently. In house developer may take the relevant bits from the code. Thus, the time consumption of maintaining and consulting the documentation has to be balanced against the time consumption consulting the code. This balancing covers what has to be documented and how elaborate it has to be.
 4. **Implementation documentation**: Code should be self documenting. But there are boundaries to this concept as very many lines of code may be read and understood to get the whole picture of a big feature. Thus, the implementation documentation should focus on the big picture. This can be key concepts used by a feature, background info and linked documentation of used infrastructure, feature details not suitable for the feature documentation, the generalized data flow, architecture insights and many more. There is no generalized answer. The time consumption of creating, maintaining and consulting the documentation has to be balanced against its usefulness.
 5. **In code documentation**. In code documentation should never be used at all for two main reasons: First of all code should be structured and named such that he is self documenting supporting code quality I-III. That does mean: If code has to be clarified its quality is bad in the first place. Second in code documentation can not be linked from automated tests. Thus, there is no way to enforce the validity of in code documentation.
@@ -237,7 +266,7 @@ Test contribute to code quality as they can increase confidence that the code ch
 
 What should be covered by unit tests to increase confidence in code changes?
 
-Some say all public methods except getters and setters have to be unit tested but there are programming languages which have no access modifiers. Moreover, in some languages one can use traits or mixins to make public methods protected or private. And what about functional programming? Thus, access is not a valid argument if one should write a test or not.
+Some say all public methods except getters and setters have to be unit tested but there are programming languages which have no access modifiers. Moreover, in some languages one can use traits or mixins to make public methods protected or private. And what about functional programming? Thus, access is not a valid argument if something should be covered by a test or not.
 
 We remember we use code-containers to split up the code for better maintainability. We can write every feature with much fewer containers. And if we do, every unit test would test a complete part of a feature. Thus, if you do unit tests on high quality code, you are testing implementation details. You test if the code is written the way it is. You verify that the code hasn't changed. Thus, unit tests only increase confidence if you change your code without actually changing it.
 
@@ -308,16 +337,15 @@ If it is not well-defined code/logic-duplication across features (not in a featu
 
 If after careful investigation in the domain of the abstraction it is well-defined, not replaceable by architectural patterns, inheritance or encapsulation and the five points above can be respected, it might have the potential to become one of the good abstractions. 
 
-*(c) 2024 Thomas Koudela - last modified 17.10.2024*
+*(c) 2024 Thomas Koudela - last modified 19.10.2024*
 
 ## ...coming up soon:
 
-
 ### Code quality IX - dependency management
 ### Code quality X - technical dept (and refactorings)
-### Basics IV - feature quality vs. code quality
-### Basics V - programming is about asking questions
-### Basics VI - programming is about balancing tradeoffs
-### Basics VII - programing is about real world domains
-### Basics VIII - workflow and how to handle big features
-### Basics IX - principles of good programming
+### Aspects of programming I - feature quality vs. code quality
+### Aspects of programming II - programming is about asking questions
+### Aspects of programming III - programming is about balancing tradeoffs
+### Aspects of programming IV - programing is about real world domains
+### Aspects of programming V - workflow and how to handle big features
+### Summary - principles of good programming
