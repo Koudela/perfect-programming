@@ -31,8 +31,8 @@ is fork-able at [GitHub](https://github.com/koudela/perfect-programming/). Pleas
   - **[Code quality VI - documentation](#code-quality-vi---documentation)**
   - **[Code quality VII - automated testing](#code-quality-vii---automated-testing)**
   - **[Code quality VIII - good and bad abstractions](#code-quality-viii---good-and-bad-abstractions)**
-- ### ...coming up soon:
   - **[Code quality IX - dependency management](#code-quality-ix---dependency-management)**
+- ### ...coming up soon:
   - **[Code quality X - technical dept (and refactorings)](#code-quality-x---technical-dept-and-refactorings)**
   - **[Aspects of programming I - feature quality vs. code quality](#aspects-of-programming-i---feature-quality-vs-code-quality)**
   - **[Aspects of programming II - programming is about asking questions](#aspects-of-programming-ii---programming-is-about-asking-questions)**
@@ -337,11 +337,28 @@ If it is not well-defined code/logic-duplication across features (not in a featu
 
 If after careful investigation in the domain of the abstraction it is well-defined, not replaceable by architectural patterns, inheritance or encapsulation and the five points above can be respected, it might have the potential to become one of the good abstractions. 
 
-*(c) 2024 Thomas Koudela - last modified 19.10.2024*
+## Code quality IX - dependency management
+
+The long term maintenance costs of a project are largely correlated to the scope of dependencies. Updating breaking changes of a programming language can often be done by a good regex search replace. Updating breaking changes of a framework or replacing a complete discontinued library can be much more challenging.
+
+The additional functionality of a dependency often comes with additional attack vectors you might not be aware of. We all remember the serious Java log4j security issue which affected thousands of libraries and millions of codebases.
+
+Dependencies are often tailored for a variety of use cases. Most of them outside the projects feature domain. Which means more code, more attack vectors and often slower code than an inhouse solution.
+
+New features, versions and security fixes take time to bubble up deep dependency trees. This can have a serious impact to the overall infrastructure - in respect to features and security issues.
+
+Dependencies can have a negative impact on developer productivity. A company I work for switched from an inhouse solution which covered about 75% of the personalized customer product features to a solution of a large market player which covered about 90%. The developing time increased such that developing time for each new customer product increased although fewer features had to develop. Some features could not be developed in reasonable time without breaking or at least ignoring existing features. Not worth mentioning it had a reason that some features where not available in the core product. Moreover, estimating the development time of features become harder to guess due to more unknowns and the bug rate rose significantly. Half of the development team left the company within one year.
+
+On the other hand libraries and frameworks can decrease developing time if understanding the library/framework and maintaining the dependency takes considerable less time than writing and maintaining replacement code. Moreover, reducing boilerplate code and standardizing some aspects of the app can increase code quality to a considerable extent.
+
+Introducing and replacing a dependency should always be handled with care. 
+
+As a rule of thumb: Fewer dependencies are better. Dependencies outside the companies product domain are better than dependencies within. Dependencies with shallow dependency trees are better. Dependencies should have regular security updates and never (in the apps lifetime) introduce breaking changes. 
+
+*(c) 2024 Thomas Koudela - last modified 11.11.2024*
 
 ## ...coming up soon:
 
-### Code quality IX - dependency management
 ### Code quality X - technical dept (and refactorings)
 ### Aspects of programming I - feature quality vs. code quality
 ### Aspects of programming II - programming is about asking questions
