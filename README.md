@@ -32,8 +32,8 @@ is fork-able at [GitHub](https://github.com/koudela/perfect-programming/). Pleas
   - **[Code quality VII - automated testing](#code-quality-vii---automated-testing)**
   - **[Code quality VIII - good and bad abstractions](#code-quality-viii---good-and-bad-abstractions)**
   - **[Code quality IX - dependency management](#code-quality-ix---dependency-management)**
-- ### ...coming up soon:
   - **[Code quality X - technical dept (and refactorings)](#code-quality-x---technical-dept-and-refactorings)**
+- ### ...coming up soon:
   - **[Aspects of programming I - feature quality vs. code quality](#aspects-of-programming-i---feature-quality-vs-code-quality)**
   - **[Aspects of programming II - programming is about asking questions](#aspects-of-programming-ii---programming-is-about-asking-questions)**
   - **[Aspects of programming III - programming is about balancing tradeoffs](#aspects-of-programming-iii---programming-is-about-balancing-tradeoffs)**
@@ -268,20 +268,21 @@ What should be covered by unit tests to increase confidence in code changes?
 
 Some say all public methods except getters and setters have to be unit tested but there are programming languages which have no access modifiers. Moreover, in some languages one can use traits or mixins to make public methods protected or private. And what about functional programming? Thus, access is not a valid argument if something should be covered by a test or not.
 
-We remember we use code-containers to split up the code for better maintainability. We can write every feature with much fewer containers. And if we do, every unit test would test a complete part of a feature. Thus, if you do unit tests on high quality code, you are testing implementation details. You test if the code is written the way it is. You verify that the code hasn't changed. Thus, unit tests only increase confidence if you change your code without actually changing it.
+We remember we use code-containers to split up the code for better maintainability. We can write every feature with much fewer containers. And if we do, every unit test would test a complete part of a feature. Thus, if we test high quality code, unit tests may test implementation details. 
 
-Testing if the code has changed when you haven't changed the codebase sounds like nonsense, but it isn't. For example, it might be useful if you bump your programming language version. For most projects it is an overkill and waste of precious developer time though.
+Implementation details are things we do not want to test. It would test if the code is written the way it is. Thus verifying that the code hasn't changed. The unit tests would only increase confidence if you change your code without actually changing it.
 
-A second derivation of this fact is: Any time you change the code you have to adjust the affected unit tests. Thus, they can not increase the confidence in the code changes. They are a placebo at best and do not contribute to code quality.
+Testing if the code has changed when you haven't changed the codebase sounds like nonsense, but it isn't. For example, it might be useful if you bump your programming language version. For most projects it is an overkill and waste of precious developer time though. Unit tests should cover the feature domain and not the implementation details.
+
+A second derivation of this fact is: Any time you change the code you have to adjust the affected unit tests. How to decide if a unit test is allowed to change? If the feature domain changes the unit test has to change. The tests that cover the part of the feature domain that does not change are not allowed to change and thus, can increase the confidence in the code changes. This does not hold true for tests that cover implementation details. Therefore, implementation details testing tests are a placebos at best and do not contribute to code quality.
 
 There are some exceptions to that rule:
-1. If you decorate a service you have to make sure that you'll be aware if the logic or the contract of the decorated service changes. Thus, you have to write a unit test for the decorated service.
-2. If you use an external library, and you can not guarantee to recognize all relevant changes on an update, you have to write a unit test for the function/method you use from that external library.
-3. In the case of strict TDD (test driven development) you have to write a test bevor filling a code-container with logic.
+1. If you decorate a service you have to make sure that you'll be aware if the logic or the contract of the decorated service changes. Thus, you have to write a unit test for the decorated service. Most of the time there are implementation details that are relevant.
+2. If you use an external library, and you can not guarantee to recognize all relevant changes on an update, you have to write a unit test for the function/method you use from that external library. In some cases there may be implementation details that are relevant.
 
-As a rule of thumb: If your code is susceptible for changes made outside your codebase you have to cover that by a unit test.
+As a rule of thumb: Beside the feature domain, if your code is susceptible for changes made outside your codebase you have to cover that by a unit test.
 
-One may argue that these are factors not additions or changes to the codebase. Thus, they have no relation to code quality. But the environment that integrates with an app can not be completely abstracted from the app nor from the codebase and thus there is a relation. We all save our apps dependency files in the code repository for a reason. Although this argument uses "integrates" hinting that these unit tests are integration tests in disguise.
+One may argue that external contributions are factors not additions or changes to the codebase. Thus, they have no relation to code quality. But the environment that integrates with an app can not be completely abstracted from the app nor from the codebase and thus there is a relation. We all save our apps dependency files in the code repository for a reason. Although this argument uses "integrates" hinting that these unit tests are integration tests in disguise.
 
 ### Integration tests and code quality
 
@@ -297,7 +298,7 @@ Beside the tests written for the documentation there is a strong argument to wri
 
 In terms of code quality the time used to support the tests has to be balanced against the time saved by the additional confidence.
 
-Unit tests as such are almost useless in terms of code quality.
+Unit tests for implementation details are almost useless in terms of code quality.
 
 Outside the scope of code quality there may be another view on tests and their usefulness.
 
@@ -355,11 +356,10 @@ Introducing and replacing a dependency should always be handled with care.
 
 As a rule of thumb: Fewer dependencies are better. Dependencies outside the companies product domain are better than dependencies within. Dependencies with shallow dependency trees are better. Dependencies should have regular security updates and never (in the apps lifetime) introduce breaking changes. 
 
-*(c) 2024 Thomas Koudela - last modified 11.11.2024*
+*(c) 2024-2025 Thomas Koudela - last modified 10.02.2025*
 
 ## ...coming up soon:
 
-### Code quality X - technical dept (and refactorings)
 ### Aspects of programming I - feature quality vs. code quality
 ### Aspects of programming II - programming is about asking questions
 ### Aspects of programming III - programming is about balancing tradeoffs
