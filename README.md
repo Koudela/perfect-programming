@@ -356,6 +356,35 @@ Introducing and replacing a dependency should always be handled with care.
 
 As a rule of thumb: Fewer dependencies are better. Dependencies outside the companies product domain are better than dependencies within. Dependencies with shallow dependency trees are better. Dependencies should have regular security updates and never (in the apps lifetime) introduce breaking changes. 
 
+## Code quality X - technical dept (and refactorings)
+
+Technical dept is the difference between a theoretical perfect codebase and the codebase as it is. Since a perfect codebase is a highly subjective theoretical construct, the same applies to technical dept.
+
+There are five major contributors to technical dept: 
+1. **The feature domain:** Details of the feature domain often materialize in chunks. As the discovered feature domain moves the theoretical perfect codebase moves too.
+2. **The technical domain:** The technical domain (language features, frameworks, libraries, common technical sense, etc.) evolves over time, which has an impact on the theoretical perfect codebase. 
+3. **Time constrains:** There is always some time constrain on programming. Forcing the developer to prefer practical code over perfect code.
+4. **The team:** A perfect codebase is a subjective thing. Thus, it depends on the developers and their view on the codebase. Thus, it depends on the team members involved. As the team changes and the developers gain experience the theoretical perfect codebase changes too. 
+5. **Developers:** Developers are humans. We may be good in our domain, but we are not perfect.
+
+This all results in technical dept. 
+
+As technical dept piles up code quality drops. Code quality relates to the developers' performance. Thus, there is a theoretical point where work done for enhancing code quality pays off in terms of time and money. 
+
+Changing the codebase without touching the feature domain but for code quality only is known as refactoring. 
+
+Developers often feel a strong urge for refactorings as it strengthens their sense for the feature and the technical domain. But refactorings can introduce bugs and does not always pay off in terms of time. Thus, refactorings should be applied and carefully.
+
+There is one exception to this rule: When a new feature or fix is ready and just before the code review, the developer should always consider refactoring the new code and its immediate surroundings. As all the relevant code and the relevant parts of the feature domain are present to the developer it costs a minimal amount of time. This behaviour does enhance code quality and the developers sense for code quality but does not increase the probability of bugs. 
+
+This can be used for **casual/implicit refactorings**.  
+
+Code quality tools unterstützen => spill over effect
+
+There is one thing that can not be done by casual refactorings. It is the **refactorings of abstractions** as they always have to be refactored in one piece.
+
+**relaunch refactorings**
+
 *(c) 2024-2025 Thomas Koudela - last modified 10.02.2025*
 
 ## ...coming up soon:
